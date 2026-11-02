@@ -17,3 +17,5 @@ this package is installed.
   way scores 0.863, as in float.
 - **Built by** provost's `ml/export_lm.py`. provost's `extract/model/lm_numpy.py`
   runs it with numpy alone.
+- **Released by** `.github/workflows/release.yml` (PyPI Trusted Publishing, no
+  API token) when a GitHub release is published.
