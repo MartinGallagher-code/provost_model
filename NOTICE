@@ -1,0 +1,19 @@
+provost-model
+Copyright 2026 Martin J. Gallagher
+
+This product includes a derivative of SmolLM2-135M
+(https://huggingface.co/HuggingFaceTB/SmolLM2-135M), Copyright Hugging Face,
+licensed under the Apache License, Version 2.0.
+
+Changes made to SmolLM2-135M:
+- fine-tuned with a LoRA adapter (rank 16, every linear layer) and two
+  classification heads on line-layout labels of command output, using
+  provost's ml/train_lm.py;
+- the adapter merged into the base weights;
+- cut to the first 18 of its 30 transformer layers;
+- the language-modelling head left out (the heads above replace it);
+- stored at 8 bits per weight as numpy arrays, by provost's
+  ml/export_lm.py.
+
+tokenizer.json is SmolLM2-135M's tokenizer, as the transformers library loads
+it, unchanged.

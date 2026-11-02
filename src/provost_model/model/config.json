@@ -1,0 +1,37 @@
+{
+ "format": "provost-lm-numpy/1",
+ "hidden": 576,
+ "layers": 18,
+ "heads": 9,
+ "kv_heads": 3,
+ "head_dim": 64,
+ "intermediate": 1536,
+ "rope_theta": 100000,
+ "rms_eps": 1e-05,
+ "vocab": 49152,
+ "quant": "int8, vocabulary table int8",
+ "roles": [
+  "header",
+  "row",
+  "cont",
+  "kv",
+  "section",
+  "skip"
+ ],
+ "max_tok": 640,
+ "source": {
+  "base": "HuggingFaceTB/SmolLM2-135M",
+  "lora": 16,
+  "layers": 18,
+  "fold": null,
+  "epochs": 2,
+  "docs": 3674,
+  "no_val": null
+ },
+ "bos": 0,
+ "shards": [
+  "weights-1.npz",
+  "weights-2.npz",
+  "weights-3.npz"
+ ]
+}
