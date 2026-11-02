@@ -80,6 +80,20 @@ quality gate would otherwise hold.
 
 Details: provost's `docs/lm-2026-10-29-tiny-labeller.md`.
 
+## Releasing
+
+`.github/workflows/release.yml` publishes to PyPI by Trusted Publishing, with
+no API token, when a GitHub release is published or the workflow is run by
+hand.
+- **Set it up once on PyPI:** project `provost-model`, owner
+  `MartinGallagher-code`, repository `provost_model`, workflow `release.yml`,
+  environment `pypi`.
+- **For each release:**
+  1. bump `__version__` in `src/provost_model/__init__.py` and add a
+     `CHANGELOG.md` entry;
+  2. merge;
+  3. publish a GitHub release tagged `vX.Y.Z`.
+
 ## Licence
 
 Apache-2.0, as the base model is; see `LICENSE` and `NOTICE`. provost itself
