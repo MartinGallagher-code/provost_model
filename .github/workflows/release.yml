@@ -46,7 +46,7 @@ jobs:
       - name: provost from PyPI loads and runs the packaged model
         run: |
           python -m pip install provost
-          python -m pip show provost | head -2
+          python -c "import importlib.metadata as m; print('provost', m.version('provost'))"
           cd tests && python -m unittest -v smoke_provost
       - uses: actions/upload-artifact@v4
         with:
