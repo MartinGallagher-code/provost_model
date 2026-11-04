@@ -31,3 +31,10 @@ jobs:
         run: |
           python -m pip install dist/*.whl
           cd tests && python -m unittest discover -s . -v
+      # provost hides a broken model (load_lm() returns None and the trees
+      # label), so load and run it with provost's own runtime: tests/smoke_provost.py
+      - name: provost from PyPI loads and runs the packaged model
+        run: |
+          python -m pip install provost
+          python -m pip show provost | head -2
+          cd tests && python -m unittest -v smoke_provost

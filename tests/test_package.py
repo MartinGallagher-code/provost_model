@@ -52,6 +52,44 @@ class Package(unittest.TestCase):
         want |= {f"l{i}.{k}" for i in range(self.cfg["layers"]) for k in LAYER_KEYS}
         self.assertEqual(names, want)
 
+    def test_tensor_shapes_match_the_config(self):
+        """Every tensor's shape and dtype is what config.json says provost's
+        runtime will reshape it to; a name alone can hide a wrong export."""
+        try:
+            import numpy as np
+        except ImportError:
+            self.skipTest("needs numpy")
+        c = self.cfg
+        h, kv, inter = c["hidden"], c["kv_heads"] * c["head_dim"], c["intermediate"]
+        self.assertEqual(c["heads"] * c["head_dim"], h)
+        shapes = {"embed.q": ((c["vocab"], h), np.int8), "embed.s": ((c["vocab"],), None),
+                  "norm": ((h,), np.float32)}
+        out_in = {"q": (h, h), "k": (kv, h), "v": (kv, h), "o": (h, h),
+                  "gate": (inter, h), "up": (inter, h), "down": (h, inter)}
+        for i in range(c["layers"]):
+            shapes[f"l{i}.in_norm"] = shapes[f"l{i}.post_norm"] = ((h,), np.float32)
+            for k, oi in out_in.items():
+                shapes[f"l{i}.{k}.q"] = (oi, np.int8)
+                shapes[f"l{i}.{k}.s"] = ((oi[0],), None)
+        got = {}
+        for shard in c["shards"]:
+            with np.load(os.path.join(provost_model.MODEL_DIR, shard), allow_pickle=False) as z:
+                for k in z.files:
+                    got[k] = (z[k].shape, z[k].dtype)
+        for k, (shape, dtype) in shapes.items():
+            self.assertEqual(got[k][0], shape, k)
+            if dtype is not None:
+                self.assertEqual(got[k][1], dtype, k)
+            else:
+                self.assertTrue(np.issubdtype(got[k][1], np.floating), k)
+        # the two heads: hidden -> width -> (1 start logit | one per role)
+        for head, n in (("start", 1), ("role", len(c["roles"]))):
+            width = got[f"{head}.w0"][0][0]
+            self.assertEqual(got[f"{head}.w0"][0], (width, h), head)
+            self.assertEqual(got[f"{head}.b0"][0], (width,), head)
+            self.assertEqual(got[f"{head}.w1"][0], (n, width), head)
+            self.assertEqual(got[f"{head}.b1"][0], (n,), head)
+
 
 if __name__ == "__main__":
     unittest.main()
