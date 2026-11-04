@@ -1,5 +1,15 @@
 # provost-model — Changelog
 
+## Unreleased
+
+- **CI runs the model with provost** before every release: provost from PyPI
+  is installed beside the wheel, loads it with its own numpy runtime and
+  labels a short capture (`tests/smoke_provost.py`). provost falls back to its
+  decision trees without a word when a model will not load, so nothing else
+  would have noticed a broken export.
+- **`tests/test_package.py` checks every tensor's shape and dtype** against
+  `config.json`, not only its name.
+
 ## 0.1.0 — 2026-11-02
 
 The first release: the tiny-LM layout labeller provost's `--model` uses when

@@ -93,6 +93,19 @@ hand.
      `CHANGELOG.md` entry;
   2. merge;
   3. publish a GitHub release tagged `vX.Y.Z`.
+- **What CI checks first**, on every push and pull request and again in
+  `release.yml` before anything is uploaded: the built wheel installs, ships
+  every file with the shapes `config.json` gives (`tests/test_package.py`),
+  and provost from PyPI loads and runs it (`tests/smoke_provost.py`). The
+  second matters because provost hides a broken model: it falls back to the
+  decision trees with no message, so a bad export would otherwise install
+  cleanly and quietly turn `provost --model` off. To run both locally:
+
+  ```bash
+  python -m build
+  python -m pip install dist/*.whl provost
+  cd tests && python -m unittest discover -s . -v && python -m unittest -v smoke_provost
+  ```
 
 ## Licence
 
