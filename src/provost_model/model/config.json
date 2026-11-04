@@ -26,7 +26,7 @@
   "fold": null,
   "epochs": 2,
   "docs": 3674,
-  "no_val": null
+  "no_val": true
  },
  "bos": 0,
  "shards": [

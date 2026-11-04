@@ -15,6 +15,6 @@ import os
 
 __all__ = ["MODEL_DIR", "__version__"]
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model")

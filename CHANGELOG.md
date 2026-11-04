@@ -1,7 +1,19 @@
 # provost-model — Changelog
 
-## Unreleased
+## 0.2.0 — unreleased
 
+- **The model is retrained on every capture** (`--no-val`, PM-001): the same
+  `lm-all-l18` recipe (SmolLM2-135M, LoRA rank 16 and two heads, 2 epochs, 18
+  layers), now on all 3,674 corpus captures. 0.1.0 held 403 back to pick the
+  epoch and never saw them. Trained on the owner's iMac (M4 GPU, 16 min).
+- **Faithfulness of the export:** on 200 corpus captures the 8-bit model
+  agrees with torch on 1,460 of 1,462 roles and 8,135 of 8,146 starts
+  (largest probability gap 0.074).
+- **Round 4** (107 captures, model-first): 67 outputs differ from 0.1.0's.
+  Rated blind in pairs on round 4's `CRITERIA.md`, 52 rate the same, 9 better
+  and 6 worse, so the total moves from 5 / 30 / 72 to 4 / 35 / 68: four fewer
+  FAILs, one PASS fewer (`103-apcupsd-apcaccess-status` drops `FIRMWARE`).
+  It files 90 captures against 93.
 - **CI runs the model with provost** before every release: provost from PyPI
   is installed beside the wheel, loads it with its own numpy runtime and
   labels a short capture (`tests/smoke_provost.py`). provost falls back to its
