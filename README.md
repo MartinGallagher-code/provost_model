@@ -88,11 +88,13 @@ hand.
 - **Set it up once on PyPI:** project `provost-model`, owner
   `MartinGallagher-code`, repository `provost_model`, workflow `release.yml`,
   environment `pypi`.
-- **For each release:**
-  1. bump `__version__` in `src/provost_model/__init__.py` and add a
-     `CHANGELOG.md` entry;
-  2. merge;
-  3. publish a GitHub release tagged `vX.Y.Z`.
+- **The version moves in every pull request**, not at release time: each one
+  bumps `__version__` in `src/provost_model/__init__.py` and opens
+  `CHANGELOG.md` with its own numbered, dated section, and CI's `version`
+  job fails it otherwise (`CLAUDE.md`, "Every change moves the version").
+- **Publishing is a separate step, and a person's call:** publish a GitHub
+  release tagged `vX.Y.Z` on the `main` commit that carries that version.
+  Not every number has to be published; PyPI only needs each one to be new.
 - **What CI checks first**, on every push and pull request and again in
   `release.yml` before anything is uploaded: the built wheel installs, ships
   every file with the shapes `config.json` gives (`tests/test_package.py`),

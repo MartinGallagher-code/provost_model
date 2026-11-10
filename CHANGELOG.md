@@ -1,6 +1,17 @@
 # provost-model — Changelog
 
-## 0.2.0 — unreleased
+## 0.2.1 — 2026-11-10
+
+- **Every change moves the version** (shared_tools BN-002): a pull request
+  into `main` now carries its own version bump and its own numbered, dated
+  section here, never an "Unreleased" heading. `tests/check_version.sh`
+  checks that `__version__` and this file's first section agree, and the
+  new `version` job in CI fails a pull request whose version is not greater
+  than its base branch's, or a push to `main` that does not move it.
+  `CLAUDE.md` and the README's "Releasing" say so. Nothing in the package
+  changes: the model is 0.2.0's.
+
+## 0.2.0 — 2026-11-04
 
 - **The model is retrained on every capture** (`--no-val`, PM-001): the same
   `lm-all-l18` recipe (SmolLM2-135M, LoRA rank 16 and two heads, 2 epochs, 18
