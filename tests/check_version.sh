@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: 2026 Martin J. Gallagher
 
 # check_version.sh -- every change moves the version.
